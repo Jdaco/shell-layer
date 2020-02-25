@@ -1,0 +1,11 @@
+* Shell Layer
+
+A spacemacs layer for configuring my shell
+
+** Installation
+#+BEGIN_SRC shell
+make install
+#+END_SRC
+
+** Usage
+Add ~shell-private~ to your list of enabled layers
