@@ -21,3 +21,36 @@ the user activate the completion manually."
   (if (file-remote-p default-directory)
       (setq-local company-idle-delay nil)
     (setq-local company-idle-delay auto-completion-idle-delay)))
+
+(defmacro make-shell-pop-command (func &optional shell)
+  "Create a function to open a shell via the function FUNC.
+SHELL is the SHELL function to use (i.e. when FUNC represents a terminal)."
+  (let* ((name (symbol-name func)))
+    `(defun ,(intern (concat "shell-pop-" name)) (index)
+       ,(format (concat "Toggle a popup window with `%S'.\n"
+                        "Multiple shells can be opened with a numerical prefix "
+                        "argument. Using the universal prefix argument will "
+                        "open the shell in the current buffer instead of a "
+                        "popup buffer.") func)
+       (interactive "P")
+       (require 'shell-pop)
+       (if (equal '(4) index)
+           ;; no popup
+           (,func ,shell)
+         (shell-pop--set-shell-type
+          'shell-pop-shell-type
+          (backquote (,name
+                      ,(concat "*" name "*")
+                      (lambda nil (,func ,shell)))))
+         (shell-pop index)))))
+
+(defun default-pop-shell ()
+  "Open the default shell in a popup."
+  (interactive)
+  (call-interactively (intern (format "shell-pop-%S" shell-default-shell))))
+
+(defun projectile-shell-pop ()
+  "Open a term buffer at projectile project root."
+  (interactive)
+  (let ((default-directory (projectile-project-root)))
+    (call-interactively 'default-pop-shell)))
