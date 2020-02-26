@@ -8,7 +8,7 @@
 
 (defun shell-private/init-comint ()
   (setq comint-prompt-read-only t)
-  (add-hook 'comint-mode-hook 'spacemacs/disable-hl-line-mode))
+  (add-hook 'comint-mode-hook 'disable-hl-line-mode))
 
 (defun shell-private/init-eshell ()
   (use-package eshell
@@ -38,7 +38,7 @@
 
 (defun shell-private/post-init-projectile ()
   (spacemacs/set-leader-keys
-    "p'" 'spacemacs/projectile-shell-pop
+    "p'" 'projectile-shell-pop
     "p$t" 'projectile-multi-term-in-root)
   (spacemacs/declare-prefix "p$" "projects/shell"))
 
@@ -51,9 +51,9 @@
       (make-shell-pop-command ansi-term shell-pop-term-shell)
 
       (spacemacs/set-leader-keys
-        "'"   'spacemacs/default-pop-shell
-        "ase" 'spacemacs/shell-pop-eshell
-        "ast" 'spacemacs/shell-pop-ansi-term)
+        "'"   'default-pop-shell
+        "ase" 'shell-pop-eshell
+        "ast" 'shell-pop-ansi-term)
       (spacemacs/declare-prefix "'" "open shell")
       (spacemacs/declare-prefix "as" "shells"))))
 

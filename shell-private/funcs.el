@@ -54,3 +54,8 @@ SHELL is the SHELL function to use (i.e. when FUNC represents a terminal)."
   (interactive)
   (let ((default-directory (projectile-project-root)))
     (call-interactively 'default-pop-shell)))
+
+(defun disable-hl-line-mode ()
+  "Locally disable global-hl-line-mode"
+  (interactive)
+  (setq-local global-hl-line-mode nil))
